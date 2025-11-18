@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Gallery</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+.email-card {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+        .email-card iframe {
+            width: 100%;
+            zoom: 35%;
+            min-height: 800px;
+            border: none;
+            pointer-events: none;
+            overflow: hidden;
+            /* prevent clicking inside small preview */
+        }
+
+        .modal-iframe {
+            border: solid 20px #cccccc;
+            border-radius: 32px;
+            height: calc(100vh - 200px);
+        }
+
+        .grid-container {
+            columns: 6 200px;
+            column-gap: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-light p-4">
+
+    <div class="ccontainer">
+        <h2 class="mb-4 text-center">o'Brian email collection</h2>
+
+        <div id="emailGrid" class="grid-container"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="emailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Email Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body text-center">
+
+
+                    <div class="btn-group mb-3">
+                        <button class="btn btn-primary" id="btnDesktop">Desktop (800px)</button>
+                        <button class="btn btn-secondary" id="btnMobile">Mobile (380px)</button>
+                    </div>
+
+                    <div class="preview-frame">
+                        <iframe id="modalIframe" class="modal-iframe"></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Your email list
+        var emails = [
+            { email: "folha1.html" },
+            { email: "hero1.html" },
+            { email: "hero2.html" },
+            { email: "hero3.html" },
+            { email: "honibe1.html" },
+            { email: "honibe2.html" },
+            { email: "honibe3.html" },
+            { email: "honibe4.html" },
+            { email: "honibe5.html" },
+            { email: "honibe6.html" },
+            { email: "hommey1.html" },
+            { email: "hommey2.html" },
+            { email: "memes1.html" },
+            { email: "memes2.html" },
+            { email: "terra1.html" },
+            { email: "terra2.html" },
+            { email: "routine1.html" },
+            { email: "routine2.html" },
+            { email: "sleepdoctor1.html" },
+            { email: "sleepdoctor2.html" },
+            { email: "sleepdoctor3.html" },
+            { email: "hpbr1.html" },
+            { email: "elitist1.html" },
+            { email: "dtc1.html" },
+        ].sort(() => Math.random() - 0.5);
+
+        // Build grid
+        var grid = document.getElementById("emailGrid");
+
+        emails.forEach((item, index) => {
+            let card = document.createElement("div");
+            card.className = "email-card border rounded bg-white shadow-sm";
+
+            let height = 1000 + (Math.random() * 400);
+
+            card.innerHTML = `
+        <iframe src="html/${item.email}" style="height: ${height}px;" scrolling="no"></iframe>
+    `;
+
+            // Click event → open modal
+            card.onclick = function () {
+                document.getElementById("modalIframe").src = 'html/' + item.email;
+                document.getElementById("modalIframe").style.width = "800px";
+                new bootstrap.Modal(document.getElementById("emailModal")).show();
+            };
+
+            grid.appendChild(card);
+        });
+
+        // Buttons to resize iframe
+        document.getElementById("btnDesktop").onclick = function () {
+            document.getElementById("modalIframe").style.width = "800px";
+        };
+        document.getElementById("btnMobile").onclick = function () {
+            document.getElementById("modalIframe").style.width = "380px";
+        };
+
+    </script>
+
+</body>
+
+</html>
